@@ -26,6 +26,10 @@ function numberize(array) {
 $(document).ready(function() {
   // Start
 
+  $("#calculator").keydown(function(key) {
+    console.log(key);
+  });
+
   $(".key").click(function() {
     var input = $(this).html();
 
@@ -64,19 +68,19 @@ $(document).ready(function() {
 
         switch (operand) {
           case '+':
-            result = add(n1,n2);
-            break;
+          result = add(n1,n2);
+          break;
           case '-':
-            result = n1 - n2;
-            break;
+          result = n1 - n2;
+          break;
           case 'x':
-            result = multiply(n1,n2);
-            break;
+          result = multiply(n1,n2);
+          break;
           case '/':
-            result = n1 / n2;
-            break;
+          result = n1 / n2;
+          break;
           case '=':
-            break;
+          break;
         }
         num1 = result.toString().split('');
         num2 = [];
