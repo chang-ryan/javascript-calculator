@@ -4,7 +4,6 @@ var operand = null;
 var operands = /[\+\-\/x=]/
 
 // Calculator Functions
-
 function add(n1, n2) {
   var result = n1 + n2;
   return result;
@@ -26,20 +25,14 @@ function numberize(array) {
 $(document).ready(function() {
   // Start
 
-  $("#calculator").keydown(function(key) {
-    console.log(key);
-  });
-
-  $(".key").click(function() {
-    var input = $(this).html();
-
+  function calculator(input) {
     // c pressed
     if (/c/i.test(input)) {
       clear();
     }
 
     // numbers pressed
-    if (!operand && $(this).hasClass("num")) {
+    if (!operand && /[0-9\.]/.test(input)) {
       if (input === ".") {
         if (num1.indexOf(".") === -1) {
           num1.push(input);
@@ -48,7 +41,7 @@ $(document).ready(function() {
         num1.push(input);
       }
       $("#screen").html(num1);
-    } else if ($(this).hasClass("num")) {
+    } else if (/[0-9\.]/.test(input)) {
       if (input === ".") {
         if (num2.indexOf(".") === -1) {
           num2.push(input);
@@ -88,6 +81,18 @@ $(document).ready(function() {
       }
       operand = input;
     }
+  };
+
+  // using keydown
+  $(document).keydown(function(key) {
+    var input = String.fromCodePoint(key.which);
+    calculator(input);
+  });
+
+  // using mouseclick
+  $(".key").click(function() {
+    var input = $(this).html();
+    calculator(input);
   });
 
   // End
