@@ -12,45 +12,53 @@ function multiply(n1,n2) {
   var result = n1 * n2;
   return result;
 };
-function clear() {
+function calcClear() {
   num1 = [];
   num2 = [];
   operand = null;
-  $("#screen").html("0")
 };
 function numberize(array) {
   return +array.join('')
 };
 
+
 $(document).ready(function() {
-  // Start
+  // START jQuery
 
   function calculator(input) {
+    // function for inputting digits and decimals
+    var pushNumber = function(numArray) {
+      if (numArray.length < 17) {
+        if (input === ".") {
+          if (numArray.indexOf(".") === -1) {
+            numArray.push(input);
+          }
+        } else {
+          numArray.push(input);
+        }
+      } else {
+        alert("something")
+      }
+      $("#screen").html(numArray);
+    };
+
     // c pressed
     if (/c/i.test(input)) {
-      clear();
-    }
+      calcClear();
+      $("#screen").html("0")
+    };
 
     // numbers pressed
-    if (!operand && /[0-9\.]/.test(input)) {
-      if (input === ".") {
-        if (num1.indexOf(".") === -1) {
-          num1.push(input);
-        }
-      } else {
-        num1.push(input);
+    if (/[0-9\.]/.test(input)) {
+      if (!operand) {
+        pushNumber(num1);
+      } else if (operand != "=") {
+        pushNumber(num2);
+      } else if (operand === "=") {
+        calcClear();
+        pushNumber(num1);
       }
-      $("#screen").html(num1);
-    } else if (/[0-9\.]/.test(input)) {
-      if (input === ".") {
-        if (num2.indexOf(".") === -1) {
-          num2.push(input);
-        }
-      } else {
-        num2.push(input);
-      }
-      $("#screen").html(num2);
-    }
+    };
 
     // operands pressed
     if (operands.test(input) && num1.length > 0) {
@@ -61,31 +69,78 @@ $(document).ready(function() {
 
         switch (operand) {
           case '+':
-          result = add(n1,n2);
-          break;
+            result = add(n1,n2);
+            break;
           case '-':
-          result = n1 - n2;
-          break;
+            result = n1 - n2;
+            break;
           case 'x':
-          result = multiply(n1,n2);
-          break;
+            result = multiply(n1,n2);
+            break;
           case '/':
-          result = n1 / n2;
-          break;
+            result = n1 / n2;
+            break;
           case '=':
-          break;
+            break;
         }
         num1 = result.toString().split('');
         num2 = [];
         $("#screen").html(num1);
       }
       operand = input;
-    }
+    };
   };
 
   // using keydown
   $(document).keydown(function(key) {
     var input = String.fromCodePoint(key.which);
+    switch (key.which) {
+      case 96:
+      input = "0";
+      break;
+      case 97:
+      input = "1";
+      break;
+      case 98:
+      input = "2";
+      break;
+      case 99:
+      input = "3";
+      break;
+      case 100:
+      input = "4";
+      break;
+      case 101:
+      input = "5";
+      break;
+      case 102:
+      input = "6";
+      break;
+      case 103:
+      input = "7";
+      break;
+      case 104:
+      input = "8";
+      break;
+      case 105:
+      input = "9";
+      break;
+      case 13:
+      input = "=";
+      break;
+      case 106:
+      input = "x";
+      break;
+      case 107:
+      input = "+";
+      break;
+      case 109:
+      input = "-";
+      break;
+      case 111:
+      input = "/";
+      break;
+    }
     calculator(input);
   });
 
@@ -95,5 +150,5 @@ $(document).ready(function() {
     calculator(input);
   });
 
-  // End
+  // END jQuery
 });
